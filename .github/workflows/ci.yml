@@ -1,18 +1,27 @@
 name: CI Pipeline
+
 on: [push]
+
 jobs:
   test:
     runs-on: ubuntu-latest
+    
     steps:
       - name: Checkout du code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
+
       - name: Configurer Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v5
         with:
           python-version: '3.x'
+
       - name: Installer les dépendances
         run: |
+          python -m pip install --upgrade pip
           pip install pytest
+
       - name: Exécuter les tests
+        # La correction est ici : 'python -m pytest'
+        # Cela permet à Python de trouver le fichier main.py à la racine
         run: |
-          pytest tests/
+          python -m pytest tests/
